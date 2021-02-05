@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This plugin extends Jenkins Credentials Plugin to provide credentials stored in Centrify Vault to Jenkins jobs. It injects retrieved credentails from Centrify Vault into build freestyle and pipeline project.
+This plugin adds a build wrapper to set environment variables and also extends Jenkins Credentials Plugin to provide credentials stored in Centrify Vault to Jenkins jobs. It injects retrieved credentails from Centrify Vault into build freestyle and pipeline project.
 
 ## Getting started
 
@@ -32,7 +32,7 @@ The plugin provides 3 kinds of credentials for used by Jenkins jobs.
 * **Centrify Vault Secret Text**
   * **Parent Path** - The path of secret in Centrify Vault. Leave it blank if the secret is located at the root level.
   * **Secret Name** - The name of secret.
-  * **ID** - ID of this credential. It is referred by **credentialsId** in binding.
+  * **ID** - ID of this credential. A UUID will be generated if it is not set. It is referred by **credentialsId** in binding so it helps to set it if you want to use the credential inside pipeline script or Jenkinsfile.
   * **Description** - Description of the credential. It is appended to credential display name so it is recommended to provide a meaningful description.
 Click **Verify Credential** to verify that the credential exits in Centrify Vault.
 ![Secret Text](/images/credential_secrettext.png)
@@ -55,6 +55,51 @@ Click **Verify Credential** to verify that either vaulted account or SSH key exi
 
 ## Plugin Usage
 
+### Usage in FreeStyle Project
+
+When you have certain plugins (such as Git, SSh Agent, etc.) that can make use of Jenkins Credentials Plugin, they can use credentials configured in Jenkins.
+For example, Git uses vaulted Git account credential.
+![Git](images/freestyle_git.png)
+
+For example, SSh Agent uses vaulted SSH key.
+![SSHAgent](images/freestyle_sshagent.png)
+
+Credential stored in Centrify Vault can also be injected into build envrionment variable. When **Retrieve credential from Centrify Vault** is checked, you can add vaulted account password or secret.
+    ***Vault Resource Type** - The type of resource. It corresponds to System, Domain, Database and Secret resource in Centrify Vault.
+    ***Resource Name or Secret Folder** - The name of the resource if resource type is System, Domain or Database. Or the folder path if resource type is Secret.
+    ***User Name or Secret Name** - The local account belongs to the resoure or the secret name.
+    ***Environment Variable** - The name of environment variable that holds the injected credential.
+
+![Build Environment](images/freestyle_buildenv.png)
+
+### Usage in Pipeline Project
+
+Because the plugin extends Jenkins Credentials Plugin, credentials can be bound to environment variables for use from miscellaneous build steps. Following can be used in pipeline script.
+
+```pipeline script
+withCredentials([centrifyVaultUsernamePassword(credentialsId: 'sql-dbadmin', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+    // available as an env variable, but will be masked if you try to print it out any which way
+    // note: single quotes prevent Groovy interpolation; expansion is by Bourne Shell, which is what you want
+    sh 'echo $PASSWORD'
+    // also available as a Groovy variable
+    echo USERNAME
+    // or inside double quotes for string interpolation
+    echo "username is $USERNAME"
+}
+
+```pipeline script
+withCredentials([centrifyVaultSecretText(credentialsId: 'my-secret', secretVariable: 'SECRET')]) {
+    sh 'echo $SECRET'
+    echo "secret is $SECRET"
+}
+```
+
+```pipeline script
+withCredentials([centrifyVaultUsernameSSHKey(credentialsId: 'my-sshkey', usernameVariable: 'USERNAME', privatekeyVariable: 'PRIVATEKEY' )]) {
+    echo "usename is $USERNAME"
+    echo "private key is $PRIVATEKEY"
+}
+```
 
 ## Contributing
 
