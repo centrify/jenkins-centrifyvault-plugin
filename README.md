@@ -76,6 +76,8 @@ Credential stored in Centrify Vault can also be injected into build envrionment 
 
 Because the plugin extends Jenkins Credentials Plugin, credentials can be bound to environment variables for use from miscellaneous build steps. Following can be used in pipeline script.
 
+Retrieve vaulted account password
+
 ```pipeline script
 withCredentials([centrifyVaultUsernamePassword(credentialsId: 'sql-dbadmin', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
     // available as an env variable, but will be masked if you try to print it out any which way
@@ -86,6 +88,9 @@ withCredentials([centrifyVaultUsernamePassword(credentialsId: 'sql-dbadmin', use
     // or inside double quotes for string interpolation
     echo "username is $USERNAME"
 }
+```
+
+Retrieve vaulted secret text
 
 ```pipeline script
 withCredentials([centrifyVaultSecretText(credentialsId: 'my-secret', secretVariable: 'SECRET')]) {
@@ -93,6 +98,8 @@ withCredentials([centrifyVaultSecretText(credentialsId: 'my-secret', secretVaria
     echo "secret is $SECRET"
 }
 ```
+
+Retrieve vaulted account SSH key
 
 ```pipeline script
 withCredentials([centrifyVaultUsernameSSHKey(credentialsId: 'my-sshkey', usernameVariable: 'USERNAME', privatekeyVariable: 'PRIVATEKEY' )]) {
