@@ -2,12 +2,12 @@
 
 ## Introduction
 
-This plugin adds a build wrapper to set environment variables and also extends Jenkins Credentials Plugin to provide credentials stored in Centrify Vault to Jenkins jobs. It injects retrieved credentails from Centrify Vault into build freestyle and pipeline project.
+This plugin adds a build wrapper to set environment variables and also extends Jenkins Credentials Plugin to provide credentials stored in Centrify Vault to Jenkins jobs. It injects retrieved credentials from Centrify Vault into build freestyle and pipeline project.
 
 ## Getting started
 
 The plugin is packaged in self-contained **.hpi** file which can be installed via Jenkins web UI or CLI.
-Refer to [Managing Plugins](https://www.jenkins.io/doc/book/managing/plugins/) for details of how to intall the plugin.
+Refer to [Managing Plugins](https://www.jenkins.io/doc/book/managing/plugins/) for details of how to install the plugin.
 
 ## Configuration
 
@@ -40,7 +40,7 @@ Click **Verify Credential** to verify that the credential exits in Centrify Vaul
 * **Centrify Vault Username with Password**
   * **Resource Type** - The type of resource. It corresponds to System, Domain and Database resource in Centrify Vault.
   * **Resource Name** - The name of the resource in Centrify Vault.
-  * **User Name** - The local account belongs to the resoure whose password is to be retrieved.
+  * **User Name** - The local account belongs to the resource whose password is to be retrieved.
 Click **Verify Credential** to verify that the vaulted account exits in Centrify Vault.
 ![Username Password](images/credential_usernamepassword.png)
 
@@ -48,7 +48,7 @@ Click **Verify Credential** to verify that the vaulted account exits in Centrify
   * **This SSH Key is associated with vaulted account** - In Centrify Vault, a SSH key can be vaulted standalone or associated with account(s). If this is checked, **Resource Name** and **User Name** fields must be provided.
   * **Resource Name** - The name of the resource which has vaulted account with SSH Key.
   * **SSH Key Name** - The name of SSH Key in Centrify Vault.
-  * **User Name** - The local account belongs to the resoure whose SSH key is to be retrieved.
+  * **User Name** - The local account belongs to the resource whose SSH key is to be retrieved.
   * **Passphrase** - If the SSH key is protected by passphrase, enter here.
 Click **Verify Credential** to verify that either vaulted account or SSH key exits in Centrify Vault.
 ![Username SSH Key](images/credential_usernamesshkey.png)
@@ -57,18 +57,19 @@ Click **Verify Credential** to verify that either vaulted account or SSH key exi
 
 ### Usage in FreeStyle Project
 
-When you have certain plugins (such as Git, SSh Agent, etc.) that can make use of Jenkins Credentials Plugin, they can use credentials configured in Jenkins.
+When you have certain plugins (such as Git, SSH Agent, etc.) that can make use of Jenkins Credentials Plugin, they can use credentials configured in Jenkins.
 For example, Git uses vaulted Git account credential.
 ![Git](images/freestyle_git.png)
 
-For example, SSh Agent uses vaulted SSH key.
+For example, SSH Agent uses vaulted SSH key.
 ![SSHAgent](images/freestyle_sshagent.png)
 
-Credential stored in Centrify Vault can also be injected into build envrionment variable. When **Retrieve credential from Centrify Vault** is checked, you can add vaulted account password or secret.
-    ***Vault Resource Type** - The type of resource. It corresponds to System, Domain, Database and Secret resource in Centrify Vault.
-    ***Resource Name or Secret Folder** - The name of the resource if resource type is System, Domain or Database. Or the folder path if resource type is Secret.
-    ***User Name or Secret Name** - The local account belongs to the resoure or the secret name.
-    ***Environment Variable** - The name of environment variable that holds the injected credential.
+Credential stored in Centrify Vault can also be injected into build environment variable. When **Retrieve credential from Centrify Vault** is checked, you can add vaulted account password or secret.
+
+* **Vault Resource Type** - The type of resource. It corresponds to System, Domain, Database and Secret resource in Centrify Vault.
+* **Resource Name or Secret Folder** - The name of the resource if resource type is System, Domain or Database. Or the folder path if resource type is Secret.
+* **User Name or Secret Name** - The local account belongs to the resoure or the secret name.
+* **Environment Variable** - The name of environment variable that holds the injected credential.
 
 ![Build Environment](images/freestyle_buildenv.png)
 
