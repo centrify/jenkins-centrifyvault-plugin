@@ -1,0 +1,4 @@
+<?jelly escape-by-default='true'?>
+<div>
+    This plugin retrieves vaulted credentials from Centrify Vault
+</div>

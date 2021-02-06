@@ -1,0 +1,10 @@
+
+.DS_Store
+.project
+target
+.classpath
+.factorypath
+work
+.mvn
+.settings
+.github

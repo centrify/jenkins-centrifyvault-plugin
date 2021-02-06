@@ -1,0 +1,31 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+
+  <f:entry name="resourceType" title="${%VaultResourceType}" field="resourceType">
+    <select name="resourceType" selected = "${instance.resourceType}">
+      <option value="system" selected="${instance.resourceType.equals('system')? 'true':null}">System</option>
+      <option value="database" selected="${instance.resourceType.equals('database')? 'true':null}">Database</option>
+      <option value="domain" selected="${instance.resourceType.equals('domain')? 'true':null}">Domain</option>
+      <option value="secret" selected="${instance.resourceType.equals('secret')? 'true':null}">Secret</option>
+    </select>
+  </f:entry>
+
+  <f:entry title="${%ResourceName}" field="resourceName">
+    <f:textbox/>
+  </f:entry>
+
+  <f:entry title="${%UserName}" field="userName">
+    <f:textbox/>
+  </f:entry>
+
+  <f:entry title="${%EnvironmentVariable}" field="envVar">
+    <f:textbox/>
+  </f:entry>
+
+  <f:entry title="">
+    <div align="right">
+      <f:repeatableDeleteButton/>
+    </div>
+  </f:entry>
+
+</j:jelly>
